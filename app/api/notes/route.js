@@ -73,34 +73,6 @@ export async function PUT(req) {
   }
 }
 
-export async function DELETE(req) {
-  const { id } = await req.json();
-
-  try {
-    await prisma.noteTag.deleteMany({
-      where: {
-        noteId: id,
-      },
-    });
-    await prisma.note.delete({
-      where: {
-        id,
-      },
-    });
-
-    return NextResponse.json({
-      status: 200,
-      message: "Note deleted successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Note deletion failed" },
-      { status: 400 }
-    );
-  }
-}
-
 // import { NextResponse } from "next/server";
 // import { PrismaClient } from "@prisma/client";
 

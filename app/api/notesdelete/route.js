@@ -7,11 +7,6 @@ export async function POST(req, { params }) {
   const { id } = await req.json();
 
   try {
-    // const data = await prisma.noteTag.findMany({
-    //   where: {
-    //     noteId: id,
-    //   },
-    // });
     await prisma.noteTag.deleteMany({
       where: {
         noteId: id,
