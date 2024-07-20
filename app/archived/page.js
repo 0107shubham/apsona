@@ -2,7 +2,7 @@
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import notesState from "../Recoil/state/page";
+import notesState from "../Recoil/state/notesState";
 import tagModelState from "../Recoil/state/tagModelState";
 import SearchText from "../Recoil/state/SearchText";
 import Tag from "../tag/page";
