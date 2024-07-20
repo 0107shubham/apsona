@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { ProfileName, SearchText } from "../Recoil/state/page";
+import { ProfileName } from "../Recoil/state/page";
+import { SearchText } from "../Recoil/state/SearchText";
 import Cookies from "js-cookie";
 import Link from "next/link";
 

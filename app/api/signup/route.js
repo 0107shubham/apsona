@@ -20,13 +20,3 @@ export async function POST(req, res) {
       .json({ message: "User creation failed", error: error.message });
   }
 }
-
-export async function GET() {
-  const user = await prisma.user.findFirst({
-    where: { id: 2 },
-  });
-  return Response.json({
-    name: "shubham",
-    data: user,
-  });
-}

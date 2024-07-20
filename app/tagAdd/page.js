@@ -25,7 +25,6 @@ const TagAdd = ({ item }) => {
     setModalOpen(false); // Optionally close the modal after submission
   };
 
-  console.log("add ", item);
   return (
     <div>
       <button onClick={toggleModal} className="">

@@ -2,7 +2,8 @@
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { notesState, tagModelState, SearchText } from "../Recoil/state/page";
+import { notesState, tagModelState } from "../Recoil/state/page";
+import { SearchText } from "../Recoil/state/SearchText";
 import Tag from "../tag/page";
 import TagAdd from "../tagAdd/page";
 import { IoMdMore } from "react-icons/io";
@@ -28,8 +29,7 @@ const Note = () => {
   const searchText = useRecoilValue(SearchText);
   const [editItemId, setEditItemId] = useState(null);
   const [currentId, setCurrntId] = useState(null);
-  const userId = Cookies.get("userId");
-  const userid = userId;
+  const userId = Cookies.get("userId") || null;
 
   const toggleModal = (itemId, e) => {
     setModalOpen(!modalOpen);
@@ -59,25 +59,28 @@ const Note = () => {
   };
 
   const handleChangeComplete = async (color, id) => {
-    setColor(color.hex);
-    console.log("collor testing for the latest data", id);
-    await axios.put(`http://localhost:3000/api/notes`, {
-      id: id,
-      backgroundColor: color.hex,
-    });
+    try {
+      setColor(color.hex);
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+        id: id,
+        backgroundColor: color.hex,
+      });
 
-    setData(
-      data.map((item) =>
-        item.id === id ? { ...item, backgroundColor: color.hex } : item
-      )
-    );
+      setData(
+        data.map((item) =>
+          item.id === id ? { ...item, backgroundColor: color.hex } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error updating note color:", error);
+    }
   };
-
-  console.log(color);
 
   const handleDelete = async (id) => {
     try {
-      await axios.post(`http://localhost:3000/api/notesdelete`, { id });
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/notesdelete`, {
+        id,
+      });
       setData(data.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting note:", error);
@@ -86,57 +89,73 @@ const Note = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3000/api/notes`, {
-      id: editItemId,
-      title,
-      content,
-      archived: archived,
-    });
+    try {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+        id: editItemId,
+        title,
+        content,
+        archived: archived,
+      });
 
-    setData(
-      data.map((item) =>
-        item.id === editItemId ? { ...item, title, content } : item
-      )
-    );
-    setModalOpen(false);
+      setData(
+        data.map((item) =>
+          item.id === editItemId ? { ...item, title, content } : item
+        )
+      );
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error updating note:", error);
+    }
   };
 
   const handleArchived = async (id) => {
     const newArchivedStatus = !archived;
     setArchived(newArchivedStatus);
-    await axios.put(`http://localhost:3000/api/notes`, {
-      id: id,
-      archived: newArchivedStatus,
-    });
+    try {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+        id: id,
+        archived: newArchivedStatus,
+      });
 
-    setData(
-      data.map((item) => (item.id === id ? { ...item, archived } : item))
-    );
+      setData(
+        data.map((item) =>
+          item.id === id ? { ...item, archived: newArchivedStatus } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error updating note archive status:", error);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post(
-        "http://localhost:3000/api/notesfetch",
-        { userId }
-      );
-      if (
-        response.data &&
-        response.data.data &&
-        response.data.data.length > 0 &&
-        response.data.data[0].notes
-      ) {
-        setData(response.data.data[0].notes);
-      } else {
-        // Handle the case where the data is not as expected
-        console.error("Unexpected data structure:", response.data);
-        setData([]); // Or handle it in a way that makes sense for your application
+      try {
+        const response = await axios.post(
+          `http://localhost:3000/api/notesfetch`,
+          { userId }
+        );
+
+        if (
+          response.data &&
+          response.data.data &&
+          response.data.data.length > 0 &&
+          response.data.data[0].notes
+        ) {
+          setData(response.data.data[0].notes);
+        } else {
+          console.error("Unexpected data structure:", response.data);
+          setData([]); // Or handle it in a way that makes sense for your application
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setData([]); // Handle error case
       }
-      // setData(response.data.data[0].notes );
-      console.log("realdata", response.data.data[0].notes);
     };
-    fetchData();
-  }, [modalOpen, notes, modelTagValue, userid, archived, color, userId]);
+
+    if (typeof window !== "undefined" && userId) {
+      fetchData();
+    }
+  }, [modalOpen, notes, modelTagValue, archived, color, userId]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && e.shiftKey) {
@@ -153,7 +172,6 @@ const Note = () => {
   };
 
   const searchInNestedData = (data, searchText) => {
-    console.log("filted ss data", data);
     const result = [];
     const search = (item) => {
       if (
@@ -161,7 +179,6 @@ const Note = () => {
         item !== null &&
         typeof item === "object"
       ) {
-        console.log("inside filtered item", item);
         if (
           (item.title &&
             item.title.toLowerCase().includes(searchText.toLowerCase())) ||
@@ -188,7 +205,6 @@ const Note = () => {
   };
 
   const filteredData = searchInNestedData(data, searchText);
-  console.log("testing filtered", filteredData);
 
   return (
     <div className="bg-white p-4  rounded shadow-md my-6 flex  justify-around flex-wrap">
@@ -228,7 +244,7 @@ const Note = () => {
             {more[item.id] && (
               <div className="absolute z-40 bg-white shadow-md right-1 top-full">
                 <button onClick={() => handleDelete(item.id)}>delete</button>
-                <TagAdd item={item} />
+                <TagAdd key={item.id} item={item} />
               </div>
             )}
             {colorOpen[item.id] && (
