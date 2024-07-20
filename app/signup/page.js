@@ -34,7 +34,7 @@ export default function Signup() {
     }
 
     // Check token validity here if needed
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, [router]); // Empty dependency array ensures this effect runs only once on mount
 
   const handleSignIn = () => {
     router.push("/signin");
