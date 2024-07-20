@@ -17,7 +17,7 @@ const TagAdd = ({ item }) => {
 
   const handleSubmitAddTag = async (e) => {
     e.preventDefault(); // Prevent the default form submission
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tag`, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/tag`, {
       noteId: item.id,
       name,
     });
