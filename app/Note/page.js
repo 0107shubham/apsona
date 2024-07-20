@@ -207,7 +207,7 @@ const Note = () => {
   };
 
   const filteredData = searchInNestedData(data, searchText);
-
+  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
   return (
     <div className="bg-white p-4  rounded shadow-md my-6 flex  justify-around flex-wrap">
       {filteredData.map((item) => (

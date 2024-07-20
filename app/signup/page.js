@@ -14,7 +14,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/signup`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/signup`,
         {
           email,
           password,
