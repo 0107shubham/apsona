@@ -10,7 +10,7 @@ export async function POST(req, res) {
   });
 
   if (!user || user.password !== password) {
-    return res.status(401).json({ message: "Invalid email or password" });
+    return Response.json({ message: "invalid passwrod" });
   }
 
   const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1h" });
