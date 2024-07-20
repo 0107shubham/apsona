@@ -19,6 +19,7 @@ export default function Signup() {
         name,
       });
       setMessage(response.data.message);
+      router.push("/signin");
     } catch (error) {
       setMessage(error.response?.data?.message || "Sign up failed");
     }

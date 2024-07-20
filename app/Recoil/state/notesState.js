@@ -4,12 +4,9 @@ import { atom } from "recoil";
 
 // Define an atom for the notes
 
-export const notesState = atom({
+const notesState = atom({
   key: "notesState",
   default: [],
 });
 
-export const tagModelState = atom({
-  key: "tagModelState",
-  default: false,
-});
+export default notesState;

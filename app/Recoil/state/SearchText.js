@@ -2,7 +2,9 @@
 
 import { atom } from "recoil";
 
-export const SearchText = atom({
+const SearchText = atom({
   key: "SearchText",
   default: "",
 });
+
+export default SearchText;

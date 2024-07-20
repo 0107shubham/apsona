@@ -2,8 +2,9 @@
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { userId, notesState, tagModelState } from "../Recoil/state/page";
-import { SearchText } from "../Recoil/state/SearchText";
+import notesState from "../Recoil/state/page";
+import tagModelState from "../Recoil/state/tagModelState";
+import SearchText from "../Recoil/state/SearchText";
 import Tag from "../tag/page";
 import TagAdd from "../tagAdd/page";
 import { IoMdMore } from "react-icons/io";

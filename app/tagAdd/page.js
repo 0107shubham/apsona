@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { tagModelState } from "../Recoil/state/page";
+
+import tagModelState from "../Recoil/state/tagModelState";
 
 const TagAdd = ({ item }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,6 +25,8 @@ const TagAdd = ({ item }) => {
     setMOdelValueTag(!valueTagState);
     setModalOpen(false); // Optionally close the modal after submission
   };
+
+  console.log("tagadd");
 
   return (
     <div>

@@ -2,8 +2,10 @@
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { notesState, tagModelState } from "../Recoil/state/page";
-import { SearchText } from "../Recoil/state/SearchText";
+import notesState from "../Recoil/state/notesState";
+import tagModelState from "../Recoil/state/tagModelState";
+import SearchText from "../Recoil/state/SearchText";
+
 import Tag from "../tag/page";
 import TagAdd from "../tagAdd/page";
 import { IoMdMore } from "react-icons/io";
@@ -12,6 +14,7 @@ import { BiArchiveOut } from "react-icons/bi";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { SketchPicker } from "react-color";
 import Cookies from "js-cookie";
+import withAuth from "../withAuth/page";
 
 const Note = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,9 +31,8 @@ const Note = () => {
 
   const searchText = useRecoilValue(SearchText);
   const [editItemId, setEditItemId] = useState(null);
-  const [currentId, setCurrntId] = useState(null);
   const userId = Cookies.get("userId") || null;
-
+  console.log("notes");
   const toggleModal = (itemId, e) => {
     setModalOpen(!modalOpen);
     if (itemId) {
@@ -61,7 +63,7 @@ const Note = () => {
   const handleChangeComplete = async (color, id) => {
     try {
       setColor(color.hex);
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+      await axios.put(`http://localhost:3000/api/notes`, {
         id: id,
         backgroundColor: color.hex,
       });
@@ -78,7 +80,7 @@ const Note = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/notesdelete`, {
+      await axios.post(`http://localhost:3000/api/notesdelete`, {
         id,
       });
       setData(data.filter((item) => item.id !== id));
@@ -90,7 +92,7 @@ const Note = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+      await axios.put(`http://localhost:3000/api/notesfetch/api/notes`, {
         id: editItemId,
         title,
         content,
@@ -112,7 +114,7 @@ const Note = () => {
     const newArchivedStatus = !archived;
     setArchived(newArchivedStatus);
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`, {
+      await axios.put(`http://localhost:3000/api/notes`, {
         id: id,
         archived: newArchivedStatus,
       });
@@ -316,4 +318,4 @@ const Note = () => {
   );
 };
 
-export default Note;
+export default withAuth(Note);

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
-import { notesState } from "../Recoil/state/page";
+import notesState from "../Recoil/state/notesState";
 import axios from "axios";
 import Cookies from "js-cookie";
 

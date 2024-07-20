@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { tagModelState } from "../Recoil/state/page";
+
+import tagModelState from "../Recoil/state/tagModelState";
+
 import { RxCross2 } from "react-icons/rx";
 
 const Tag = ({ item }) => {

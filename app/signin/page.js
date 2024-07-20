@@ -12,7 +12,7 @@ const Signin = () => {
   const [message, setMessage] = useState("");
 
   const router = useRouter();
-
+  console.log("sihnin");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -56,7 +56,7 @@ const Signin = () => {
     }
 
     // Check token validity here if needed
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, [router]); // Empty dependency array ensures this effect runs only once on mount
 
   const handleSignIn = () => {
     router.push("/signin");

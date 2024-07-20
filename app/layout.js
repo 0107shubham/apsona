@@ -2,20 +2,23 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
-
+import RecoilContextProvider from "./Recoil/RecoilContextProvider";
 const inter = Inter({ subsets: ["latin"] });
-
+import ProtectedRoute from "./withAuth/page";
 const metadata = {
   title: "Note Maker",
   description: "Develped by Shubham Tyagi",
 };
 
-export default function RootLayout({ children }) {
+const RootLayout = ({ children }) => {
+  console.log("rootlauout");
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RecoilRoot>{children}</RecoilRoot>
+        <RecoilContextProvider>{children}</RecoilContextProvider>
       </body>
     </html>
   );
-}
+};
+
+export default ProtectedRoute(RootLayout);
