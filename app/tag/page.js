@@ -11,7 +11,7 @@ const Tag = ({ item }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modelValueTag, setMOdelValueTag] = useRecoilState(tagModelState);
   const valueTagState = useRecoilValue(tagModelState);
-
+  const tags = item?.tags || [];
   // Handle tag update
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const Tag = ({ item }) => {
 
   return (
     <div className="flex mb-16">
-      {item.tags.map((tagItem) => (
+      {tags.map((tagItem) => (
         <div key={tagItem.id} className="my-2  text-[14px] ">
           <div className="bg-gray-300 group cursor-pointer flex justify-center items-center px-2 py-1 w-fit rounded-full">
             <p className="text-black">{tagItem.tag.name}</p>
@@ -53,13 +53,6 @@ const Tag = ({ item }) => {
               <RxCross2 />
             </div>
           </div>
-
-          {/* <p
-            onClick={() => toggleModal(tagItem)}
-            className="text-red-900 font-bold cursor-pointer"
-          >
-            Edit Tag
-          </p> */}
 
           {modalOpen && (
             <div

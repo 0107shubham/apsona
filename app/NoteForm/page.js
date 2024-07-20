@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { notesState } from "../Recoil/state/page";
-import { userId } from "../Recoil/state/page";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 const NoteForm = () => {
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useRecoilState(notesState);
   const [tagdata, setTagData] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const userId = Cookies.get("userId");
 
   const toggleModal = (e) => {
     e.preventDefault();
@@ -19,7 +21,6 @@ const NoteForm = () => {
   };
 
   const [content, setContent] = useState("");
-  const userid = useRecoilValue(userId);
 
   const handleInputChange = (event) => {
     setInputTag(event.target.value);
@@ -36,9 +37,10 @@ const NoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("function triggredhfvfk");
     const response = await axios.post("http://localhost:3000/api/notes", {
       title,
-      userId: userid,
+      userId,
       content,
       tags: tagdata,
       backgroundColor: "white",
@@ -51,7 +53,6 @@ const NoteForm = () => {
     setInputTag("");
     console.log("tttttttt");
   };
-  console.log("recoil testing", userid);
   return (
     <div>
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-md">

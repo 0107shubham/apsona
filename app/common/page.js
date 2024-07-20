@@ -8,11 +8,9 @@ import Link from "next/link";
 
 export default function Common() {
   const router = useRouter();
-  const userName = Cookies.get("userName");
-  const userId = Cookies.get("userId");
 
   const [searchText, setSearchText] = useRecoilState(SearchText);
-
+  const [name, setName] = useState("");
   const handleLogOut = () => {
     Cookies.remove("token");
     Cookies.remove("userId");
@@ -22,16 +20,18 @@ export default function Common() {
 
   useEffect(() => {
     const token = Cookies.get("token");
+    const userName = Cookies.get("userName");
+    setName(userName);
 
     if (!token) {
       router.push("/signin");
     }
-  }, []);
+  }, [router]);
 
   return (
     <div className="h-fit bg-gray-100">
       <div className="bg-purple-500 w-full h-[10vh] flex items-center justify-between px-5 shadow-md">
-        <p className="text-white text-xl font-semibold">{userName}</p>
+        <p className="text-white text-xl font-semibold">{name}</p>
         <Link className="text-xl text-white" href={"/"}>
           Notes
         </Link>

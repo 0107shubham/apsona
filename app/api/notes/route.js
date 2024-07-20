@@ -14,7 +14,7 @@ export async function POST(req) {
         content,
         backgroundColor: backgroundColor || "white",
         archived: archived || false,
-        userId,
+        userId: parseInt(userId),
         tags: {
           create: tags.map((tag) => ({
             tag: {

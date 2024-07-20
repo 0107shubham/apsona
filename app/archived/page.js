@@ -126,7 +126,7 @@ const Archived = () => {
       setData(response.data.data[0].notes);
     };
     fetchData();
-  }, [modalOpen, notes, modelTagValue, userid, archived, color]);
+  }, [modalOpen, notes, modelTagValue, userid, archived, color, userId]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && e.shiftKey) {

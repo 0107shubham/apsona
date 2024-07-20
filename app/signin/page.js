@@ -1,10 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+
 import { useRouter } from "next/navigation";
-import { userId } from "../Recoil/state/page";
-import { ProfileName } from "../Recoil/state/page";
 
 import Cookies from "js-cookie";
 
@@ -14,8 +12,6 @@ const Signin = () => {
   const [message, setMessage] = useState("");
 
   const router = useRouter();
-  const [value, setUserId] = useRecoilState(userId);
-  const [profileName, setProFileName] = useRecoilState(ProfileName);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,8 +39,6 @@ const Signin = () => {
       setMessage("Signed in successfully");
       router.push("/");
 
-      setUserId(response.data.user.id);
-      setProFileName(response.data.user.name);
       console.log("res", response);
 
       // Redirect to a protected page after successful sign-in

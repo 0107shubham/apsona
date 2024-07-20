@@ -2,12 +2,7 @@
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  userId,
-  notesState,
-  tagModelState,
-  SearchText,
-} from "../Recoil/state/page";
+import { notesState, tagModelState, SearchText } from "../Recoil/state/page";
 import Tag from "../tag/page";
 import TagAdd from "../tagAdd/page";
 import { IoMdMore } from "react-icons/io";
@@ -51,7 +46,6 @@ const Note = () => {
       setEditItemId(null);
     }
   };
-  console.log("fada", data);
 
   const handleMore = (itemId) => {
     setMore((prevMore) => ({ ...prevMore, [itemId]: !prevMore[itemId] }));
@@ -126,11 +120,23 @@ const Note = () => {
         "http://localhost:3000/api/notesfetch",
         { userId }
       );
-      setData(response.data.data[0].notes);
+      if (
+        response.data &&
+        response.data.data &&
+        response.data.data.length > 0 &&
+        response.data.data[0].notes
+      ) {
+        setData(response.data.data[0].notes);
+      } else {
+        // Handle the case where the data is not as expected
+        console.error("Unexpected data structure:", response.data);
+        setData([]); // Or handle it in a way that makes sense for your application
+      }
+      // setData(response.data.data[0].notes );
       console.log("realdata", response.data.data[0].notes);
     };
     fetchData();
-  }, [modalOpen, notes, modelTagValue, userid, archived, color]);
+  }, [modalOpen, notes, modelTagValue, userid, archived, color, userId]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && e.shiftKey) {
