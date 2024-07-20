@@ -61,7 +61,7 @@ const Archived = () => {
   const handleChangeComplete = async (color, id) => {
     setColor(color.hex);
     console.log("collor testing for the latest data", id);
-    await axios.put(`http://localhost:3000/api/notes`, {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notes`, {
       id: id,
       backgroundColor: color.hex,
     });
@@ -77,7 +77,9 @@ const Archived = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.post(`http://localhost:3000/api/notesdelete`, { id });
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notesdelete`, {
+        id,
+      });
       setData(data.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Error deleting note:", error);
@@ -86,7 +88,7 @@ const Archived = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3000/api/notes`, {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notes`, {
       id: editItemId,
       title,
       content,
@@ -104,7 +106,7 @@ const Archived = () => {
   const handleArchived = async (id) => {
     const newArchivedStatus = !archived;
     setArchived(newArchivedStatus);
-    await axios.put(`http://localhost:3000/api/notes`, {
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notes`, {
       id: id,
       archived: newArchivedStatus,
     });
@@ -117,7 +119,7 @@ const Archived = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.post(
-        "http://localhost:3000/api/notesfetch",
+        `${process.env.NEXT_PUBLIC_API_URL}/notesfetch`,
         { userId }
       );
       setData(response.data.data[0].notes);

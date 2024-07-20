@@ -63,7 +63,7 @@ const Note = () => {
   const handleChangeComplete = async (color, id) => {
     try {
       setColor(color.hex);
-      await axios.put(`http://localhost:3000/api/notes`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notes`, {
         id: id,
         backgroundColor: color.hex,
       });
@@ -80,7 +80,7 @@ const Note = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.post(`http://localhost:3000/api/notesdelete`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notesdelete`, {
         id,
       });
       setData(data.filter((item) => item.id !== id));
@@ -92,7 +92,7 @@ const Note = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/api/notesfetch/api/notes`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notesfetch`, {
         id: editItemId,
         title,
         content,
@@ -114,7 +114,7 @@ const Note = () => {
     const newArchivedStatus = !archived;
     setArchived(newArchivedStatus);
     try {
-      await axios.put(`http://localhost:3000/api/notes`, {
+      await axios.put(` ${process.env.NEXT_PUBLIC_API_URL}/notes`, {
         id: id,
         archived: newArchivedStatus,
       });
@@ -133,7 +133,7 @@ const Note = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:3000/api/notesfetch`,
+          `${process.env.NEXT_PUBLIC_API_URL}/notesfetch`,
           { userId }
         );
 

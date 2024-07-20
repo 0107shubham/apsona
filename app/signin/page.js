@@ -16,10 +16,13 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/signin", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/signin`,
+        {
+          email,
+          password,
+        }
+      );
 
       Cookies.set("token", response.data.token, {
         expires: 1,

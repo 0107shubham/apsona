@@ -17,7 +17,7 @@ const Tag = ({ item }) => {
   // Handle tag update
   const handleUpdate = async (e) => {
     e.preventDefault();
-    await axios.put("http://localhost:3000/api/tag", { tagId, name });
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/tag`, { tagId, name });
     // Update state and close the modal
     setMOdelValueTag(!valueTagState);
     setModalOpen(false);
@@ -25,7 +25,7 @@ const Tag = ({ item }) => {
 
   // Handle tag deletion
   const handleDedate = async (tagId) => {
-    await axios.post("http://localhost:3000/api/tagdelete", { tagId });
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tagdelete`, { tagId });
     // Update state after deletion
     setMOdelValueTag(!valueTagState);
   };

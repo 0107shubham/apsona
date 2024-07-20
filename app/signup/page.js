@@ -13,11 +13,14 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/signup", {
-        email,
-        password,
-        name,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/signup`,
+        {
+          email,
+          password,
+          name,
+        }
+      );
       setMessage(response.data.message);
       router.push("/signin");
     } catch (error) {
